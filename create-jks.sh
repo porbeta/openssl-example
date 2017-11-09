@@ -10,6 +10,7 @@ rm -rf deploy-token-auth/token.auth.example.com.jks
 winpty openssl pkcs12 -export \
 	-in deploy-basic-rest-ear/basic.rest.example.com.cert.pem \
 	-inkey deploy-basic-rest-ear/basic.rest.example.com.key.pem \
+	-passin pass:secretpassword \
 	-chain -CAfile deploy-basic-rest-ear/ca-chain.cert.pem \
 	-name "basic.rest.example.com" \
 	-out deploy-basic-rest-ear/basic.rest.example.com.p12 \
@@ -27,6 +28,7 @@ keytool -v -list -keystore deploy-basic-rest-ear/basic.rest.example.com.jks -sto
 winpty openssl pkcs12 -export \
 	-in deploy-token-auth/token.auth.example.com.cert.pem \
 	-inkey deploy-token-auth/token.auth.example.com.key.pem \
+	-passin pass:secretpassword \
 	-chain -CAfile deploy-token-auth/ca-chain.cert.pem \
 	-name "token.auth.example.com" \
 	-out deploy-token-auth/token.auth.example.com.p12 \

@@ -27,8 +27,8 @@ echo 1000 > serial
 
 # Create the root key and certificate
 openssl req \
-	-nodes \
 	-newkey rsa:4096 \
+	-passout pass:secretpassword \
     -new -x509 -days 7300 -sha256 -extensions v3_ca \
     -subj "//OU=OpenSSL Root CA\OU=Certification Authorities\O=OpenSSL Example Ltd\C=US" \
     -keyout private/ca.key.pem \
@@ -45,11 +45,12 @@ echo 1000 > crlnumber
 
 # Create the intermediate key and certificate signing request
 openssl req \
-	-nodes \
-    -newkey rsa:4096 \
+	-newkey rsa:4096 \
+	-passout pass:secretpassword \
     -subj "//OU=OpenSSL Example Certification Authority\OU=SSA\O=OpenSSL Example Ltd\C=US" \
     -keyout private/intermediate.key.pem \
     -out csr/intermediate.csr.pem
+
 
 	
 cd $cwd/root/ca	
@@ -58,6 +59,7 @@ cd $cwd/root/ca
 winpty openssl ca -batch -config openssl.cnf -extensions v3_intermediate_ca \
       -days 3650 -notext -md sha256 \
       -in intermediate/csr/intermediate.csr.pem \
+	  -passin pass:secretpassword \
       -out intermediate/certs/intermediate.cert.pem
 
 openssl x509 -noout -text -in intermediate/certs/intermediate.cert.pem

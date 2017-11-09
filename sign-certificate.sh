@@ -17,12 +17,14 @@ cd $cwd/root/ca
 openssl req \
 	  -new \
 	  -key intermediate/private/token.auth.example.com.key.pem \
+	  -passin pass:secretpassword \
       -out intermediate/csr/token.auth.example.com.csr.pem \
 	  -subj "//CN=token.auth.example.com\O=OpenSSL Example Ltd\L=Baltimore\S=Maryland\C=US"
 
 winpty openssl ca -batch -config intermediate/openssl.cnf -extensions server_cert \
       -days 375 -notext -md sha256 \
       -in intermediate/csr/token.auth.example.com.csr.pem \
+	  -passin pass:secretpassword \
       -out intermediate/certs/token.auth.example.com.cert.pem
 	  
 openssl x509 -noout -text -in intermediate/certs/token.auth.example.com.cert.pem
@@ -52,12 +54,14 @@ cd $cwd/root/ca
 openssl req \
 	  -new \
 	  -key intermediate/private/basic.rest.example.com.key.pem \
+	  -passin pass:secretpassword \
       -out intermediate/csr/basic.rest.example.com.csr.pem \
 	  -subj "//CN=basic.rest.example.com\O=OpenSSL Example Ltd\L=Baltimore\S=Maryland\C=US"
 
 winpty openssl ca -batch -config intermediate/openssl.cnf -extensions server_cert \
       -days 375 -notext -md sha256 \
       -in intermediate/csr/basic.rest.example.com.csr.pem \
+	  -passin pass:secretpassword \
       -out intermediate/certs/basic.rest.example.com.cert.pem
 	  
 openssl x509 -noout -text -in intermediate/certs/basic.rest.example.com.cert.pem
